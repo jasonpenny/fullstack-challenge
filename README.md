@@ -20,10 +20,10 @@ Some things it should be able to to:
 - Allow someone to create new readings data for a Device. (how this works is up to you. maybe its a single reading? maybe its bulk creation?)
 
 Notes
-~Authenication is not strictly required.~
-~None of the data in this system is real customer data.~
+* Authenication is not strictly required.
+* None of the data in this system is real customer data.
 
-~Hint: we love testing~
+Hint: we love testing
 
 
 ## The API
