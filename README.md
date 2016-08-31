@@ -83,7 +83,6 @@ POST /readings
 - optional fields:
 	- createdAt (date)
 
-----------
 
 ##Misc
 
