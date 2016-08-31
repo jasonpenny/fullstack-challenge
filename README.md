@@ -42,24 +42,24 @@ curl -H "Content-Type: application/json" --data '{"name": "Todd's Garage"}' http
 ```
 **Full API:**
 
-GET /devices
+`GET /devices`
 - get all devices
 
-GET /devices/count
+`GET /devices/count`
 - get a count of all devices
 
-GET /devices/:id
+`GET /devices/:id`
 - get a specific device
 
-GET /devices/:id/readings
+`GET /devices/:id/readings`
 - get all readings for a device
 
-POST /devices
+`POST /devices`
 - create new device
 - required fields:
 	- name (string)
 
-DELETE /devices/:id
+`DELETE /devices/:id`
 - delete a device
 
 ----------
@@ -68,13 +68,13 @@ DELETE /devices/:id
 
 **Full API**:
 
-GET /readings
+`GET /readings`
 - gets all readings in the system
 
-GET /readings/:id
+`GET /readings/:id`
 - gets a specific reading
 
-POST /readings
+`POST /readings`
 - creates new readings
 - required fields:
 	- type (string), one of ['temperature', 'humidity', 'airquality']
