@@ -23,7 +23,7 @@ Notes
 * Authenication is not strictly required.
 * None of the data in this system is real customer data.
 
-Hint: we love testing
+_Hint: we love testing_
 
 
 ## The API
