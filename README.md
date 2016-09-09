@@ -1,97 +1,29 @@
-
 # Full Stack Code Challenge
 
+This is a webapp that displays a dashboard to view and modify devices and readings using an external API. It is written in AngularJS 1.5 and requires node/npm.
 
-## The Challenge
-The challenge is to create a dashboard (web or otherwise) to view readings (temperature, air quality, humidity) for all devices in the system.
+## Setup
+npm is used to download libraries that this code depends on, so the first step is to install the dependencies with npm:
 
-#### Details
-We're going to create an administration interface where we can browse all the data in the system (Devices and Readings), as well as create new Devices. In the Canary system, all devices receive a name; either via a list of pre generated names, or via the user creating a unique name.
-
-The application should start at a list of Devices. You can structure the rest of the application in whatever way makes most sense to you to be able to manage the data.
-
-Some things it should be able to to:
-- Show the current devices in the system.
-- Show average temperature, air quality, and humidity from all devices in the system.
-- Show the min/max average temperature, air quality, and humidity in the system.
-- Show graphs for temperature, air quality, and humidity readings for a specific device.
-- Allow someone to create a new Device.
-- Allow someone to delete a Device.
-- Allow someone to create new readings data for a Device. (how this works is up to you. maybe its a single reading? maybe its bulk creation?)
-
-Notes
-* Authenication is not strictly required.
-* None of the data in this system is real customer data.
-
-_Hint: we love testing_
-
-
-## The API
-The API root is https://fullstack-challenge-api.herokuapp.com
-
-### Devices
-**Example call**:
 ```
-curl -H "Content-Type: application/json" --data '{"name": "Todd's Garage"}' https://fullstack-challenge-api.herokuapp.com/devices
-{
-  name: "Todd's Garage",
-  createdAt: "2016-08-29T05:59:47.758Z",
-  updatedAt: "2016-08-29T05:59:47.759Z",
-  id: "rJh8k8Zs"
-}
+npm install
 ```
-**Full API:**
 
-`GET /devices`
-- get all devices
+The external API at https://fullstack-challenge-api.herokuapp.com does not allow CORS, so angular cannot use the API directly. Node is used to serve the static html files and to proxy API calls, so first run node:
 
-`GET /devices/count`
-- get a count of all devices
+```
+node index.js
+```
 
-`GET /devices/:id`
-- get a specific device
+Then visit  and visit http://localhost:3000/ in a browser
 
-`GET /devices/:id/readings`
-- get all readings for a device
+### Assumptions
+The code assumes that the API is running and available. This does not have a lot of error handling.
 
-`POST /devices`
-- create new device
-- required fields:
-	- name (string)
+The challenge description says that the user should create a unique name for new devices, but the API does not return an error when creating a new device that matches an existing one, so any validation for that is not implemented.
 
-`DELETE /devices/:id`
-- delete a device
-
-----------
-
-### Readings
-
-**Full API**:
-
-`GET /readings`
-- gets all readings in the system
-
-`GET /readings/:id`
-- gets a specific reading
-
-`POST /readings`
-- creates new readings
-- required fields:
-	- type (string), one of ['temperature', 'humidity', 'airquality']
-	- value (number)
-	- deviceId (string)
-- optional fields:
-	- createdAt (date)
-
-
-##Misc
-
-### Bonus Points
-- use of Angular (or backbone, react, ember, etc.)
-
-
-### Questions
-Feel free to make any assumptions you want along the way, just document those in the README. If there is something you'd like an answer to, send an email to `todd@canary.is`.
-
-### When You're Done
-Share your GitHub repo with `madtimber` and `grelas`, and send an email to `todd@canary.is`. Make sure any setup instructions to run your solution (and tests) locally are included in the README.
+## TODO
+* After submitting a new reading, the code currently just calls `console.log()`, it should redirect the page or clear the form to enter another reading.
+* Add min/max/avg across all readings on the home page
+* Add min/max/avg across all readings for a device on the device page
+* Add tests
