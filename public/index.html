@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canary Dashboard</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/datetimepicker.css">
+</head>
+<body ng-app="app">
+
+    <menu-bar></menu-bar>
+
+    <ng-view></ng-view>
+
+    <script type="text/ng-template" id="menubar.html">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#/">Canary Device Dashboard</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li ng-repeat="menu in $ctrl.menu">
+                        <a href="{{menu.component}}">{{menu.name}}
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    </script>
+
+    <script type="text/ng-template" id="home.html">
+        <div class="container">
+            Current Devices:
+            <ul>
+                <li ng-repeat="device in $ctrl.devices">
+                    <a href="#/device/{{device.id}}/{{device.name}}">{{device.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="device.html">
+        <div class="container">
+            <h2>
+                {{$ctrl.name}}
+                <button type="button" class="btn btn-danger" ng-click="$ctrl.deleteDevice()"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+            </h2>
+
+            <button type="button" class="btn btn-default" ng-click="$ctrl.addReading()">Add Reading</button>
+
+            <div ng-if="$ctrl.temperature.values">
+                <p>Temperature</p>
+
+                <canvas id="line" class="chart chart-line"
+                    chart-labels="$ctrl.temperature.labels"
+                    chart-data="$ctrl.temperature.values">
+                </canvas>
+            </div>
+
+            <div ng-if="$ctrl.humidity.values">
+                <p>Humidity</p>
+
+                <canvas id="line" class="chart chart-line"
+                    chart-labels="$ctrl.humidity.labels"
+                    chart-data="$ctrl.humidity.values">
+                </canvas>
+            </div>
+
+            <div ng-if="$ctrl.airquality.values">
+                <p>Air Quality</p>
+
+                <canvas id="line" class="chart chart-line"
+                    chart-labels="$ctrl.airquality.labels"
+                    chart-data="$ctrl.airquality.values">
+                </canvas>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="newdevice.html">
+        <div class="container">
+            <form name="newdeviceform" ng-submit="$ctrl.submit(newdeviceform.$valid)" novalidate>
+                <input name="name" ng-model="$ctrl.name" required placeholder="Name">
+                <input type="submit" class="btn btn-primary" value="Add new device" ng-disabled="newdeviceform.$invalid">
+            </form>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="newreading.html">
+        <style>
+            #newreadingform table td { padding: 2px 10px 2px 0; }
+            #newreadingform select { width: 11em; }
+        </style>
+        <div class="container">
+            <h2>
+                <a href="#/device/{{$ctrl.id}}/{{$ctrl.name}}">
+                    {{$ctrl.name}}
+                </a>
+            </h2>
+
+            <h3>
+                Add New Reading
+            </h3>
+
+            <form id="newreadingform" name="newreadingform" ng-submit="$ctrl.submit(newreadingform.$valid)" novalidate>
+                <table>
+                    <tr>
+                        <td>Type:</td>
+                        <td>
+                            <select name="type" ng-model="$ctrl.type" required>
+                                <option value="temperature">Temperature</option>
+                                <option value="humidity">Humidity</option>
+                                <option value="airquality">Air Quality</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Value:</td>
+                        <td>
+                            <input name="value" ng-model="$ctrl.value" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Created At:<br>(Optional)</td>
+                        <td>
+                            <datetimepicker ng-model="$ctrl.createdAt"></datetimepicker>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" class="btn btn-primary" value="Add new reading" ng-disabled="newreadingform.$invalid">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </script>
+
+<script src="/js/angular.js"></script>
+<script src="/js/angular-route.min.js"></script>
+<script src="/js/underscore-min.js"></script>
+<script src="/js/Chart.min.js"></script>
+<script src="/js/angular-chart.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/js/ui-bootstrap.js"></script>
+<script src="/js/ui-bootstrap-tpls.js"></script>
+<script src="/js/datetimepicker.js"></script>
+
+<script>
+angular
+    .module('app', ['ngRoute', 'chart.js', 'ui.bootstrap', 'ui.bootstrap.datetimepicker'])
+    .config(['$routeProvider', function ($routeProvider) {
+        $routeProvider
+            .when('/', { template: '<home></home>' })
+            .when('/newdevice', { template: '<new-device></new-device>' })
+            .when('/device/:id/:name', {
+                template: function (params) {
+                    return '<device id="' + params.id + '" name="' + params.name + '"></device>';
+                }
+            })
+            .when('/newreading/:id/:name', {
+                template: function (params) {
+                    return '<new-reading id="' + params.id + '" name="' + params.name + '"></new-reading>';
+                }
+            })
+            .otherwise({
+                template: '<div class="container">Not found</div>'
+            });
+    }])
+    .factory('deviceSvc', ['$http', function ($http) {
+        var urlBase = 'http://localhost:3000/proxy';
+
+        var deviceSvc = {};
+
+        deviceSvc.getDevices = function () {
+            return $http.get(urlBase + '/devices');
+        };
+
+        deviceSvc.getReadingsForDevice = function (deviceId) {
+            return $http.get(urlBase + '/devices/' + deviceId + '/readings');
+        };
+
+        deviceSvc.addNewDevice = function (deviceName) {
+            var data = { "name": deviceName };
+            return $http.post(urlBase + '/devices', data);
+        };
+
+        deviceSvc.deleteDevice = function (deviceId) {
+            return $http.delete(urlBase + '/devices/' + deviceId);
+        };
+
+        deviceSvc.addNewReading = function (deviceId, value, type, createdAt) {
+            var data = {
+                "type": type,
+                "value": value,
+                "deviceId": deviceId
+            };
+            if (createdAt) {
+                data.createdAt = createdAt;
+            }
+
+            return $http.post(urlBase + '/readings', data);
+        };
+
+        return deviceSvc;
+    }])
+    .factory('valuesSvc', [function () {
+        var valuesSvc = {};
+
+        valuesSvc.labelsAndValues = function (data) {
+            var datavalues = _.chain(data)
+                .sortBy('createdAt')
+
+            var labels = datavalues
+                .map(function (t) {
+                    return moment(t.createdAt).format('M/D/YY h:mma');
+                })
+                .value();
+            var values = [
+                datavalues
+                    .pluck('value')
+                    .value()
+            ];
+            return {
+                "labels": labels,
+                "values": values
+            };
+        };
+
+        valuesSvc.groupAndExtractData = function (data, types, result) {
+            var groups = _.groupBy(data, 'type');
+            _.each(types, function (type) {
+                if (groups[type]) {
+                    var labelsAndValues = valuesSvc.labelsAndValues(groups[type]);
+
+                    result[type].labels = labelsAndValues.labels;
+                    result[type].values = labelsAndValues.values;
+                }
+            });
+        };
+
+        return valuesSvc;
+    }])
+    .component('menuBar', {
+        templateUrl: 'menubar.html',
+        controller: function () {
+            this.menu = [
+                {
+                    name: "Add Device",
+                    component: "#/newdevice"
+                },
+            ];
+        }
+    })
+    .component('home', {
+        templateUrl: 'home.html',
+        controller: ['deviceSvc', function (deviceSvc) {
+            var ctrl = this;
+
+            ctrl.devices = [];
+
+            deviceSvc.getDevices().then(function (response) {
+                ctrl.devices = response.data;
+            });
+        }]
+    })
+    .component('newDevice', {
+        templateUrl: 'newdevice.html',
+        controller: ['deviceSvc', '$location', function (deviceSvc, $location) {
+            var ctrl = this;
+
+            ctrl.submit = function (isValid) {
+                if (isValid) {
+                    deviceSvc.addNewDevice(ctrl.name).then(function (response) {
+                        if (response.data.id) {
+                            $location.path('/device/' + response.data.id + '/' + response.data.name);
+                        } else {
+                            $location.path('/');
+                        }
+                    });
+                }
+            };
+        }]
+    })
+    .component('device', {
+        bindings: {
+            id: '@',
+            name: '@'
+        },
+        templateUrl: 'device.html',
+        controller: ['deviceSvc', '$location', 'valuesSvc', function (deviceSvc, $location, valuesSvc) {
+            var ctrl = this;
+
+            ctrl.temperature = {};
+            ctrl.humidity = {};
+            ctrl.airquality = {};
+
+
+            deviceSvc.getReadingsForDevice(ctrl.id).then(function (response) {
+                valuesSvc.groupAndExtractData(
+                    response.data,
+                    ['temperature', 'humidity', 'airquality'],
+                    ctrl
+                );
+            });
+
+            ctrl.deleteDevice = function () {
+                deviceSvc.deleteDevice(ctrl.id).then(function () {
+                    $location.path('/');
+                });
+            };
+
+            ctrl.addReading = function () {
+                $location.path('/newreading/' + ctrl.id + '/' + ctrl.name);
+            };
+        }]
+    })
+    .component('newReading', {
+        bindings: {
+            id: '@',
+            name: '@'
+        },
+        templateUrl: 'newreading.html',
+        controller: ['deviceSvc', '$location', function (deviceSvc, $location) {
+            var ctrl = this;
+
+            ctrl.submit = function (isValid) {
+                if (isValid) {
+                    var createdAt = null;
+                    if (ctrl.createdAt) {
+                        createdAt = ctrl.createdAt.toISOString();
+                    }
+
+                    deviceSvc.addNewReading(ctrl.id, ctrl.value, ctrl.type, createdAt)
+                        .then(function () {
+                            console.log('finished addNewReading');
+                        });
+                }
+            };
+        }]
+    })
+    ;
+</script>
+</body>

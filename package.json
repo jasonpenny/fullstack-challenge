@@ -1,0 +1,32 @@
+{
+  "name": "fullstack-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cnry/fullstack-challenge.git"
+  },
+  "keywords": [],
+  "author": "Jason Penny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cnry/fullstack-challenge/issues"
+  },
+  "homepage": "https://github.com/cnry/fullstack-challenge#readme",
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-chart.js": "^1.0.2",
+    "angular-route": "^1.5.8",
+    "angular-ui-bootstrap": "^2.1.3",
+    "angular-ui-bootstrap-datetimepicker": "^2.0.1",
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.0",
+    "moment": "^2.14.1",
+    "request": "^2.74.0",
+    "underscore": "^1.8.3"
+  }
+}
