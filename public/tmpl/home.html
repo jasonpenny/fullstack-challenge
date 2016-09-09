@@ -1,0 +1,9 @@
+<div class="container">
+    Current Devices:
+    <ul>
+        <li ng-repeat="device in $ctrl.devices">
+            <a href="#/device/{{device.id}}/{{device.name}}">{{device.name}}</a>
+        </li>
+    </ul>
+</div>
+
