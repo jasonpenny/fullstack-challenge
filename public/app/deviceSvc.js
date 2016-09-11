@@ -34,5 +34,9 @@ angular.module('app')
             return $http.post(urlBase + '/readings', data);
         };
 
+        deviceSvc.getAllReadings = function (deviceId) {
+            return $http.get(urlBase + '/readings');
+        };
+
         return deviceSvc;
     }]);

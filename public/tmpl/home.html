@@ -1,5 +1,19 @@
 <div class="container">
-    Current Devices:
+    <div ng-if="$ctrl.temperature.values">
+        <h3>
+            Averages across all devices
+        </h3>
+        <ul>
+            <li>Temperature: {{$ctrl.temperature.average | number}}</li>
+            <li>Humidity: {{$ctrl.humidity.average | number}}</li>
+            <li>Air Quality: {{$ctrl.airquality.average | number}}</li>
+        </ul>
+    </div>
+
+    <h3>
+        Current Devices:
+    </h3>
+
     <ul>
         <li ng-repeat="device in $ctrl.devices">
             <a href="#/device/{{device.id}}/{{device.name}}">{{device.name}}</a>

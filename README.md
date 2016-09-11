@@ -31,4 +31,3 @@ The challenge description says that the user should create a unique name for new
 
 ## TODO
 * After submitting a new reading, the code currently just calls `console.log()`, it should redirect the page or clear the form to enter another reading.
-* Add min/max/avg across all readings on the home page

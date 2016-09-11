@@ -9,9 +9,9 @@
     <div ng-if="$ctrl.temperature.values">
         <h3>Temperature</h3>
         <ul>
-            <li>Average: {{$ctrl.temperature.average}}</li>
-            <li>Minimum: {{$ctrl.temperature.minimum}}</li>
-            <li>Maximum: {{$ctrl.temperature.maximum}}</li>
+            <li>Average: {{$ctrl.temperature.average | number}}</li>
+            <li>Minimum: {{$ctrl.temperature.minimum | number}}</li>
+            <li>Maximum: {{$ctrl.temperature.maximum | number}}</li>
         </ul>
 
         <canvas id="line" class="chart chart-line"
