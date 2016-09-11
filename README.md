@@ -17,6 +17,13 @@ node index.js
 
 Then visit  and visit http://localhost:3000/ in a browser
 
+### Tests
+The tests are setup to use PhantomJS, so it should be installed first (I installed it with Homebrew). To run the unit tests, you should be able to run:
+
+```
+npm test
+```
+
 ### Assumptions
 The code assumes that the API is running and available. This does not have a lot of error handling.
 
@@ -26,4 +33,3 @@ The challenge description says that the user should create a unique name for new
 * After submitting a new reading, the code currently just calls `console.log()`, it should redirect the page or clear the form to enter another reading.
 * Add min/max/avg across all readings on the home page
 * Add min/max/avg across all readings for a device on the device page
-* Add tests
