@@ -22,6 +22,10 @@ angular.module('app')
             };
         };
 
+        var sum = function (values) {
+            return values.reduce(function (a, b) { return a + b; });
+        };
+
         valuesSvc.groupAndExtractData = function (data, types, result) {
             var groups = _.groupBy(data, 'type');
             _.each(types, function (type) {
@@ -30,6 +34,10 @@ angular.module('app')
 
                     result[type].labels = labelsAndValues.labels;
                     result[type].values = labelsAndValues.values;
+
+                    result[type].minimum = Math.min.apply(null, labelsAndValues.values[0]);
+                    result[type].maximum = Math.max.apply(null, labelsAndValues.values[0]);
+                    result[type].average = sum(labelsAndValues.values[0]) / labelsAndValues.values[0].length;
                 }
             });
         };

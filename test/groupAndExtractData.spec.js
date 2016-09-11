@@ -35,12 +35,35 @@ describe('groupAndExtractData', function () {
     it('groups data by type', function () {
         var result = {"temperature": {}, "humidity": {}};
 
-        valuesSvc.groupAndExtractData(sampledata, ['temperature', 'humidity'], result);
+        valuesSvc.groupAndExtractData(
+            sampledata, ['temperature', 'humidity'], result
+        );
 
         expect(result.temperature.labels.length).toEqual(2);
         expect(result.temperature.values[0].length).toEqual(2);
 
         expect(result.humidity.labels.length).toEqual(1);
         expect(result.humidity.values[0].length).toEqual(1);
+    });
+
+    it('calculates min and max by type', function () {
+        var result = {"temperature": {}, "humidity": {}};
+
+        valuesSvc.groupAndExtractData(
+            sampledata, ['temperature', 'humidity'], result
+        );
+
+        expect(result.temperature.minimum).toEqual(74);
+        expect(result.temperature.maximum).toEqual(76);
+    });
+
+    it('calculates avg by type', function () {
+        var result = {"temperature": {}, "humidity": {}};
+
+        valuesSvc.groupAndExtractData(
+            sampledata, ['temperature', 'humidity'], result
+        );
+
+        expect(result.temperature.average).toEqual(75);
     });
 });
