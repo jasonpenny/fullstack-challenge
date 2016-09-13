@@ -25,6 +25,7 @@ module.exports = function(config) {
       '../node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
       '../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
       '../node_modules/angular-ui-bootstrap-datetimepicker/datetimepicker.js',
+      '../node_modules/angular-confirm/angular-confirm.min.js',
 
       '../public/app/app.js',
       '../public/app/valuesSvc.js',

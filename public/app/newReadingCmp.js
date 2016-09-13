@@ -5,7 +5,7 @@ angular.module('app')
             name: '@'
         },
         templateUrl: 'tmpl/newreading.html',
-        controller: ['deviceSvc', '$location', function (deviceSvc, $location) {
+        controller: ['deviceSvc', '$location', '$confirm', function (deviceSvc, $location, $confirm) {
             var ctrl = this;
 
             ctrl.submit = function (isValid) {
@@ -17,8 +17,21 @@ angular.module('app')
 
                     deviceSvc.addNewReading(ctrl.id, ctrl.value, ctrl.type, createdAt)
                         .then(function () {
-                            // TODO : redirect to device page or notify user and allow adding another new reading
-                            console.log('finished addNewReading');
+                            var confirmOptions = {
+                                text: 'Would you like to add another reading?',
+                                title: 'Add Another Reading?',
+                                ok: 'Add Another Reading',
+                                cancel: 'Go Back to Device'
+                            };
+
+                            $confirm(confirmOptions)
+                                .then(function() {
+                                    delete ctrl.value;
+                                    delete ctrl.type;
+                                    delete ctrl.createdAt;
+                                }, function () {
+                                    $location.path('/device/' + ctrl.id + '/' + ctrl.name);
+                                });
                         });
                 }
             };

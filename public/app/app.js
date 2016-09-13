@@ -3,7 +3,8 @@ angular
         'ngRoute',
         'chart.js',
         'ui.bootstrap',
-        'ui.bootstrap.datetimepicker'
+        'ui.bootstrap.datetimepicker',
+        'angular-confirm'
     ])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider

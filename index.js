@@ -18,6 +18,7 @@ app.use('/js', express.static(__dirname + '/node_modules/angular-chart.js/dist')
 app.use('/js', express.static(__dirname + '/node_modules/moment/min'));
 app.use('/js', express.static(__dirname + '/node_modules/angular-ui-bootstrap/dist'));
 app.use('/js', express.static(__dirname + '/node_modules/angular-ui-bootstrap-datetimepicker'));
+app.use('/js', express.static(__dirname + '/node_modules/angular-confirm'));
 
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
 app.use('/css', express.static(__dirname + '/node_modules/angular-ui-bootstrap-datetimepicker'));

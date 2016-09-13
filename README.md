@@ -28,6 +28,3 @@ npm test
 The code assumes that the API is running and available. This does not have a lot of error handling.
 
 The challenge description says that the user should create a unique name for new devices, but the API does not return an error when creating a new device that matches an existing one, so any validation for that is not implemented.
-
-## TODO
-* After submitting a new reading, the code currently just calls `console.log()`, it should redirect the page or clear the form to enter another reading.
