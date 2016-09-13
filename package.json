@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cnry/fullstack-challenge.git"
+    "url": "git+https://github.com/jasonpenny/fullstack-challenge.git"
   },
   "keywords": [],
   "author": "Jason Penny",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cnry/fullstack-challenge/issues"
+    "url": "https://github.com/jasonpenny/fullstack-challenge/issues"
   },
-  "homepage": "https://github.com/cnry/fullstack-challenge#readme",
+  "homepage": "https://github.com/jasonpenny/fullstack-challenge#readme",
   "dependencies": {
     "angular": "^1.5.8",
     "angular-chart.js": "^1.0.2",
