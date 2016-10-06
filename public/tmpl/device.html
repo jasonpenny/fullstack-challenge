@@ -1,0 +1,50 @@
+<div class="container">
+    <h2>
+        {{$ctrl.name}}
+        <button type="button" class="btn btn-danger" ng-click="$ctrl.deleteDevice()"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+    </h2>
+
+    <button type="button" class="btn btn-default" ng-click="$ctrl.addReading()">Add Reading</button>
+
+    <div ng-if="$ctrl.temperature.values">
+        <h3>Temperature</h3>
+        <ul>
+            <li>Average: {{$ctrl.temperature.average | number}}</li>
+            <li>Minimum: {{$ctrl.temperature.minimum | number}}</li>
+            <li>Maximum: {{$ctrl.temperature.maximum | number}}</li>
+        </ul>
+
+        <canvas id="line" class="chart chart-line"
+            chart-labels="$ctrl.temperature.labels"
+            chart-data="$ctrl.temperature.values">
+        </canvas>
+    </div>
+
+    <div ng-if="$ctrl.humidity.values">
+        <h3>Humidity</h3>
+        <ul>
+            <li>Average: {{$ctrl.humidity.average}}</li>
+            <li>Minimum: {{$ctrl.humidity.minimum}}</li>
+            <li>Maximum: {{$ctrl.humidity.maximum}}</li>
+        </ul>
+
+        <canvas id="line" class="chart chart-line"
+            chart-labels="$ctrl.humidity.labels"
+            chart-data="$ctrl.humidity.values">
+        </canvas>
+    </div>
+
+    <div ng-if="$ctrl.airquality.values">
+        <h3>Air Quality</h3>
+        <ul>
+            <li>Average: {{$ctrl.airquality.average}}</li>
+            <li>Minimum: {{$ctrl.airquality.minimum}}</li>
+            <li>Maximum: {{$ctrl.airquality.maximum}}</li>
+        </ul>
+
+        <canvas id="line" class="chart chart-line"
+            chart-labels="$ctrl.airquality.labels"
+            chart-data="$ctrl.airquality.values">
+        </canvas>
+    </div>
+</div>

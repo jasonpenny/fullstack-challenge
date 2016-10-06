@@ -1,0 +1,47 @@
+<style>
+    #newreadingform table td { padding: 2px 10px 2px 0; }
+    #newreadingform select { width: 11em; }
+</style>
+<div class="container">
+    <h2>
+        <a href="#/device/{{$ctrl.id}}/{{$ctrl.name}}">
+            {{$ctrl.name}}
+        </a>
+    </h2>
+
+    <h3>
+        Add New Reading
+    </h3>
+
+    <form id="newreadingform" name="newreadingform" ng-submit="$ctrl.submit(newreadingform.$valid)" novalidate>
+        <table>
+            <tr>
+                <td>Type:</td>
+                <td>
+                    <select name="type" ng-model="$ctrl.type" required>
+                        <option value="temperature">Temperature</option>
+                        <option value="humidity">Humidity</option>
+                        <option value="airquality">Air Quality</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Value:</td>
+                <td>
+                    <input name="value" ng-model="$ctrl.value" required>
+                </td>
+            </tr>
+            <tr>
+                <td>Created At:<br>(Optional)</td>
+                <td>
+                    <datetimepicker ng-model="$ctrl.createdAt"></datetimepicker>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" class="btn btn-primary" value="Add new reading" ng-disabled="newreadingform.$invalid">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

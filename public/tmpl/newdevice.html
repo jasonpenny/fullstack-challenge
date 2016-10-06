@@ -1,0 +1,6 @@
+<div class="container">
+    <form name="newdeviceform" ng-submit="$ctrl.submit(newdeviceform.$valid)" novalidate>
+        <input name="name" ng-model="$ctrl.name" required placeholder="Name">
+        <input type="submit" class="btn btn-primary" value="Add new device" ng-disabled="newdeviceform.$invalid">
+    </form>
+</div>
